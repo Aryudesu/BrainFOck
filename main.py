@@ -1,3 +1,7 @@
+from error import NoBracketsError, PointerError
+from importFile import file_check
+
+
 # 文字コードに対応する文字を返す
 def getchar(num):
     try:
@@ -7,15 +11,14 @@ def getchar(num):
 
 
 # 対応のインデックス検索
-def searchNextIndex(S, Slen, idx, c):
+def search_next_index(S, Slen, idx, c):
     co = 0
     cnt = 1 if c == "[" else -1
     ec = "]" if c == "[" else "["
     while True:
         idx += cnt
         if idx < 0 or idx >= Slen:
-            print("Error")
-            return
+            raise NoBracketsError()
         if S[idx] == c:
             co += 1
         elif S[idx] == ec:
@@ -43,21 +46,24 @@ def bf(S):
                 memlen += 1
         elif S[idx] == "<":
             ptr -= 1
+            if ptr < 0:
+                raise PointerError()
         elif S[idx] == ".":
             print(getchar(mem[ptr]), end="")
         elif S[idx] == ",":
             print("\n Input Char > ", end="")
             mem[ptr] = ord(input()[0])
         elif S[idx] == "[" and mem[ptr] == 0:
-            idx = searchNextIndex(S, Slen, idx, "[")
+            idx = search_next_index(S, Slen, idx, "[")
         elif S[idx] == "]" and mem[ptr]:
-            idx = searchNextIndex(S, Slen, idx, "]")
+            idx = search_next_index(S, Slen, idx, "]")
         idx += 1
     print("")
     return
 
 
-FileName = input()
-with open(FileName) as f:
-    S = f.read()
-    bf(S)
+file_name = input()
+file_check(file_name)
+f = open(file_name)
+S = f.read()
+bf(S)

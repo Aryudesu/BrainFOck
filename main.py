@@ -62,6 +62,7 @@ def bf(S):
     return
 
 
+print("FileName > ", end="")
 file_name = input()
 file_check(file_name)
 f = open(file_name)

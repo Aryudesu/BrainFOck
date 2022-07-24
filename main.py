@@ -1,8 +1,28 @@
+# 文字コードに対応する文字を返す
 def getchar(num):
     try:
         return chr(num)
     except Exception:
         return ""
+
+
+# 対応のインデックス検索
+def searchNextIndex(S, Slen, idx, c):
+    co = 0
+    cnt = 1 if c == "[" else -1
+    ec = "]" if c == "[" else "["
+    while True:
+        idx += cnt
+        if idx < 0 or idx >= Slen:
+            print("Error")
+            return
+        if S[idx] == c:
+            co += 1
+        elif S[idx] == ec:
+            if co == 0:
+                break
+            co -= 1
+    return idx
 
 
 def bf(S):
@@ -28,41 +48,16 @@ def bf(S):
         elif S[idx] == ",":
             print("\n Input Char > ", end="")
             mem[ptr] = ord(input()[0])
-        elif S[idx] == "[":
-            if mem[ptr] == 0:
-                c = 0
-                while True:
-                    idx += 1
-                    if idx == Slen:
-                        print("Error")
-                        return
-                    if S[idx] == "[":
-                        c += 1
-                    elif S[idx] == "]":
-                        if c == 0:
-                            break
-                        c -= 1
-        elif S[idx] == "]":
-            if mem[ptr]:
-                c = 0
-                while True:
-                    idx -= 1
-                    if idx < 0:
-                        print("Error")
-                        return
-                    if S[idx] == "]":
-                        c += 1
-                    elif S[idx] == "[":
-                        if c == 0:
-                            break
-                        c -= 1
+        elif S[idx] == "[" and mem[ptr] == 0:
+            idx = searchNextIndex(S, Slen, idx, "[")
+        elif S[idx] == "]" and mem[ptr]:
+            idx = searchNextIndex(S, Slen, idx, "]")
         idx += 1
     print("")
     return
 
 
 FileName = input()
-S = ""
 with open(FileName) as f:
     S = f.read()
-bf(S)
+    bf(S)

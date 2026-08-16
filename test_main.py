@@ -1,6 +1,6 @@
-import io
+import subprocess
+import sys
 import unittest
-from contextlib import redirect_stdout
 from pathlib import Path
 
 from error import NoBracketsError, PointerError
@@ -35,10 +35,13 @@ class BrainfuckTest(unittest.TestCase):
             self.execute("<")
 
     def test_import_has_no_side_effects(self) -> None:
-        output = io.StringIO()
-        with redirect_stdout(output):
-            __import__("main")
-        self.assertEqual(output.getvalue(), "")
+        result = subprocess.run(
+            [sys.executable, "-c", "import main"],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        self.assertEqual(result.stdout, "")
 
 
 if __name__ == "__main__":

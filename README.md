@@ -24,7 +24,15 @@ python main.py
 
 ```text
 FileName > hw.bf
-Hello, world-
+Hello, world!
+```
+
+## テスト
+
+標準ライブラリの `unittest` でテストを実行できます。
+
+```bash
+python -m unittest -v
 ```
 
 ## 対応する命令
@@ -59,3 +67,4 @@ Hello, world-
 | `error.py` | 独自例外の定義 |
 | `hw.bf` | Hello Worldのサンプル |
 | `cord.bf` | Brainfuckプログラムのサンプル |
+| `test_main.py` | インタプリタの単体テスト |

@@ -24,7 +24,7 @@ python main.py
 
 ```text
 FileName > hw.bf
-Hello, World!
+Hello, world-
 ```
 
 ## 対応する命令
